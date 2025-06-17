@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Repository;
 
-namespace Onion_Arch
+namespace Onion_Arch.ContextFactory
 {
-    public class RepositoryContextFactory
+    public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
     {
         public RepositoryContext CreateDbContext(string[] args)
         {

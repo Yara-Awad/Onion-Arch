@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities
+namespace Shared.DataTransferObjects
 {
-    public interface IEmployeeRepository
-    {
-    }
+    public record EmployeeDto(Guid Id, string Name, int Age, string Position);
 }

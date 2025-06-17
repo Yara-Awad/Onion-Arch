@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contracts;
 using Entities;
 
 namespace Repository
@@ -18,14 +19,13 @@ namespace Repository
             _repositoryContext = repositoryContext;
             _companyRepository = new Lazy<ICompanyRepository>(() => new
           CompanyRepository(repositoryContext));
-            _employeeRepository = new Lazy<IEmployeeRepository>(() => new
-          EmployeeRepository(repositoryContext));
+            _employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext));
         }
 
         public ICompanyRepository Company => _companyRepository.Value;
         public IEmployeeRepository Employee => _employeeRepository.Value;
 
-        public void Save() => _repositoryContext.SaveChanges();
-    
-}
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+
+    }
 }

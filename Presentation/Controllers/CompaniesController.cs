@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper.Configuration.Attributes;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Presentation.ActionFilters;
+using Presentation.ModelBinders;
 using Service.Contract;
+using Shared.DataTransferObjects;
 
 namespace Presentation.Controllers
 {
@@ -15,13 +22,77 @@ namespace Presentation.Controllers
         private readonly IServiceManager _service;
         public CompaniesController(IServiceManager service) => _service = service;
         [HttpGet]
-        public IActionResult GetCompanies()
+        public async Task< IActionResult> GetCompanies()
         {
-
-            throw new Exception("Exception");
-            var companies = _service.CompanyService.GetAllCompanies(trackChanges: false);
+           // throw new Exception("Exception");
+            var companies =
+               await _service.CompanyService.GetAllCompaniesAsync(trackChanges: false);
                 return Ok(companies);
-           
+            
+            
+        }
+        [HttpGet("{id:guid}", Name = "CompanyById")]
+
+        public async Task<IActionResult> GetCompany(Guid id)
+        {
+            var company = await _service.CompanyService.GetCompanyAsync(id, trackChanges: false);
+            return Ok(company);
+        }
+        [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateCompany([FromBody] CompanyForCreationDto company)
+        {
+            var createdCompany = await _service.CompanyService.CreateCompanyAsync(company);
+            return CreatedAtRoute("CompanyById", new { id = createdCompany.Id },
+            createdCompany);
+        }
+        [HttpGet("collection/({ids})", Name = "CompanyCollection")]
+        public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType =typeof(ArrayModelBinder))]IEnumerable<Guid> ids)
+        {
+            var companies = await _service.CompanyService.GetByIdsAsync(ids, trackChanges: false);
+
+            return Ok(companies);
+        }
+        [HttpPost("collection")]
+        public async Task<IActionResult> CreateCompanyCollection([FromBody]IEnumerable<CompanyForCreationDto> companyCollection)
+        {
+            var result =
+            await _service.CompanyService.CreateCompanyCollectionAsync(companyCollection);
+            return CreatedAtRoute("CompanyCollection", new { result.ids },
+            result.companies);
+        }
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteCompany(Guid id)
+        {
+           await _service.CompanyService.DeleteCompanyAsync(id, trackChanges: false);
+            return NoContent();
+        }
+        [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
+        {
+          await  _service.CompanyService.UpdateCompanyAsync(id, company, trackChanges: true);
+
+            return NoContent();
+        }
+        //[HttpPatch("{id:guid}")]
+        //public IActionResult PartiallyUpdateEmployeeForCompany(Guid companyId, Guid id,[FromBody] JsonPatchDocument<EmployeeForUpdateDto> patchDoc)
+        //{
+        //    //if (patchDoc is null)
+        //    //    return BadRequest("patchDoc object sent from client is null.");
+        //    //var result = _service.EmployeeService.GetEmployeeForPatchAsync(companyId, id,
+        //    //compTrackChanges: false,
+        //    //empTrackChanges: true);
+        //    //patchDoc.ApplyTo(result.employeeToPatch);
+        //    //_service.EmployeeService.SaveChangesForPatchAsync(result.employeeToPatch,
+        //    //result.employeeEntity);
+        //    //return NoContent();
+        //}
+        [HttpOptions]
+        public IActionResult GetCompaniesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
     }
 }

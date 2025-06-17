@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contracts;
 
 namespace Service.Contract
 {
@@ -10,5 +11,7 @@ namespace Service.Contract
     {
         ICompanyService CompanyService { get; }
         IEmployeeService EmployeeService { get; }
+        IAuthenticationService AuthenticationService { get; }
+
     }
 }

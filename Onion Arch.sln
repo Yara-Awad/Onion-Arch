@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onion Arch", "Onion Arch\Onion Arch.csproj", "{3C145800-8B5F-4B2A-BD56-D66E6632D31A}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{88BE3248-4BBD-4437-A129-1D524D805272}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{18BFF671-1439-4A1F-B4FA-D25CEF5734A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{96E8EC97-154C-4D12-956B-6D218B383127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{18BFF671-1439-4A1F-B4FA-D25CEF5734A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18BFF671-1439-4A1F-B4FA-D25CEF5734A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18BFF671-1439-4A1F-B4FA-D25CEF5734A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E8EC97-154C-4D12-956B-6D218B383127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E8EC97-154C-4D12-956B-6D218B383127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E8EC97-154C-4D12-956B-6D218B383127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E8EC97-154C-4D12-956B-6D218B383127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
